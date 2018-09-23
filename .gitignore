@@ -2,3 +2,4 @@
 .vscode
 scripts
 force-app\main\default\staticresources\GIPHY.resource
+force-app/main/default/staticresources/GIPHY.resource

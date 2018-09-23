@@ -1,3 +1,41 @@
+#TP 
+sfdx force:auth:web:login -d -a DevHub
+sfdx force:org:create -s -f config/project-scratch-def.json -a TP_Gifter
+sfdx force:source:push
+sfdx force:user:permset:assign -n GIFter
+sfdx force:org:open -p lightning/n/GIFter
+
+
+sfdx force:package:create -n GIFter -d "Using GIPHY to find GIFs and post to Chatter" -r force-app -t Unlocked -v DevHub
+
+sfdx force:package:list
+
+sfdx force:package:version:create -p GIFter -d force-app -k test1234 --wait 10 -v DevHub
+
+# install in scratch org
+sfdx force:package:install --wait 10 --publishwait 10 --package GIFter@1.0.0-1 -k test1234 --noprompt
+sfdx force:user:permset:assign -n GIFter
+
+# install in TP
+sfdx force:auth:web:login -a TP_Gifter_TP
+sfdx force:package:install -u TP_Gifter_TP --wait 10 --package GIFter@1.0.0-1 -k test1234 --noprompt
+sfdx force:user:permset:assign -n GIFter -u TP_Gifter_TP
+sfdx force:org:open -p lightning/n/GIFter -u TP_Gifter_TP
+
+# install upgrade 
+# DO YOUR CHANGES / TEST IN SCRATCH ORG
+
+# create package
+sfdx force:package:version:create -p GIFter -d force-app -k test1234 --wait 10 -v DevHub
+# install package in fresh scratch org
+sfdx force:org:create -s -f config/project-scratch-def.json -a TP_Gifter
+sfdx force:package:install --wait 10 --publishwait 10 --package GIFter@1.1.0-1 -k test1234 --noprompt
+sfdx force:user:permset:assign -n GIFter
+
+# install on DESTINATION TP/other
+sfdx force:package:install -u TP_Gifter_TP --wait 10 --package GIFter@1.1.0-1 -k test1234 --noprompt
+sfdx force:org:open -p lightning/n/GIFter -u TP_Gifter_TP
+
 # GIFter
 
 The GIF-to-Chatter app for Lightning Platform you didn't know you needed!

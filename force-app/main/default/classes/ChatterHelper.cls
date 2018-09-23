@@ -1,5 +1,5 @@
 public with sharing class ChatterHelper {
-    
+    //get images from external
   @AuraEnabled
   public static String getChatterGroups(String imageUrl, String chatterText) {
 
